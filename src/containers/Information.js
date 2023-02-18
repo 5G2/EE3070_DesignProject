@@ -1,40 +1,76 @@
 import React, {useState,useEffect}from 'react';
 import { Link, Navigate } from "react-router-dom";
+// import getTemperature from '../action/update/InformationUpdate';
 
 
-function Information (props) {
 
-    const [formData, setFormData] = useState({
-    temperature: "",
-    humidity: "",
-    light: "",
-    co2: "",
-    });
+const Information =() =>{
 
-    const [temp,setTemp]= useState()
+    const [temperature, setTemperature] = useState();
+    const [humidity, setHumidity] = useState();
+    const [light, setLight] = useState();
+    const [co2, setCo2] = useState();
 
+
+    async function getTemperature() {
+        const response = await fetch(
+            `https://api.thingspeak.com/channels/2034242/fields/1.json?results=1`,{
+                method:'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },})
+        let actualData = await response.json();
+        setTemperature(actualData.feeds[0].field1) 
+      }
+    
+      async function getLight() {
+        const response = await fetch(
+            `https://api.thingspeak.com/channels/2034242/fields/1.json?results=1`,{
+                method:'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },})
+        let actualData = await response.json();
+        setHumidity(actualData.feeds[0].field1) 
+      }
+      async function getCo2() {
+        const response = await fetch(
+            `https://api.thingspeak.com/channels/2034242/fields/1.json?results=1`,{
+                method:'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },})
+        let actualData = await response.json();
+        setLight(actualData.feeds[0].field1) 
+      }
+      async function getHumidity() {
+        const response = await fetch(
+            `https://api.thingspeak.com/channels/2034242/fields/1.json?results=1`,{
+                method:'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },})
+        let actualData = await response.json();
+        setCo2(actualData.feeds[0].field1) 
+      }
+      
     useEffect(() => {
-        getTemperature()
+        getTemperature();
+        getLight();
+        getCo2();
+        getHumidity();
       }, [])
-  //fetch(`https://api.thingspeak.com/channels/2034242/fields/1.json`)
 
-   async function getTemperature() {
-    const response = await fetch(
-        `https://api.thingspeak.com/channels/2034242/fields/1.json?results=1`,{
-            method:'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },})
-    let actualData = await response.json();
-    let temperatureData = actualData.feeds[0].field1
-    // console.log("temperature= "+temperatureData);
-    // console.log(actualData) 
-    setTemp(temperatureData)
-  }
+      
+      function update(){
+        // setTemperature(getTemperature());
+        // console.log(getTemperature())
+      }
 
-
-    const { temperature,humidity, light,co2 } = formData;
   
     return (
 
@@ -47,7 +83,7 @@ function Information (props) {
                     className='form-control'
                     type='temperature'
                     name='temperature'
-                    value={temp+ " °C"}
+                    value={temperature+ " °C"}
                     disabled
                 />
             </div>
@@ -57,9 +93,8 @@ function Information (props) {
                 <input
                     className='form-control'
                     type='humidity'
-                    placeholder='95%'
                     name='humidity'
-                    value={humidity}
+                    value={humidity +" %"}
                     disabled
                 />
             </div>
@@ -69,9 +104,8 @@ function Information (props) {
                 <input
                     className='form-control'
                     type='light'
-                    placeholder='2000 LUX'
                     name='light'
-                    value={light}
+                    value={light +" LUX"}
                     disabled
                 />
             </div>
@@ -81,14 +115,13 @@ function Information (props) {
                 <input
                     className='form-control'
                     type='co2'
-                    placeholder='600 PPM'
                     name='co2'
-                    value={co2}
+                    value={co2 +" PPM"}
                     disabled
                 />
             </div>
             <br/>
-            {/* <button onClick={getData()}> update</button> */}
+            <button onClick={update()}> update</button>
     </div>
     )
 };
