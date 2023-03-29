@@ -76,13 +76,16 @@ const Information = () => {
   }, []);
 
   function update() {
-    // setTemperature(getTemperature());
-    // console.log(getTemperature())
+    getTemperature();
+    getair_humidity();
+    getlight();
+    console.log("testing updated");
+    // getsoid_humidity();
   }
 
   return (
-    <div className="container mt-5">
-      <h1>Live Data!</h1>
+    <div className="container " style={{ color: "white" }}>
+      <h1 style={{ paddingTop: "50px" }}>Live Data!</h1>
 
       <div className="form-group">
         <p>Temperature:</p>
@@ -94,8 +97,8 @@ const Information = () => {
           disabled
         />
       </div>
-      <br />
-      <div className="form-group">
+      {/* <br /> */}
+      {/* <div className="form-group">
         <p>Soid Humidity:</p>
         <input
           className="form-control"
@@ -104,7 +107,7 @@ const Information = () => {
           value={soid_humidity + " %"}
           disabled
         />
-      </div>
+      </div> */}
       <br />
       <div className="form-group">
         <p>Air Humidity:</p>
@@ -128,7 +131,31 @@ const Information = () => {
         />
       </div>
       <br />
-      <button onClick={update()}> update</button>
+      <button
+        onClick={update()}
+        className="btn btn-primary"
+        style={{ backgroundColor: "#5b3e31" }}
+      >
+        update
+      </button>
+
+      <Link
+        className="nav-link active"
+        aria-current="page"
+        to="/controlPanel"
+        style={{
+          color: "white",
+          fontFamily: "Shantell Sans",
+          paddingTop: "20px",
+        }}
+      >
+        <button
+          className="btn btn-primary"
+          style={{ backgroundColor: "green" }}
+        >
+          Control Panel
+        </button>
+      </Link>
     </div>
   );
 };
